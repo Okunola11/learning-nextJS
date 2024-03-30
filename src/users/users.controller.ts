@@ -9,17 +9,20 @@ import {
   Query,
   ParseIntPipe,
   ValidationPipe,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+  UseGuards,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { AuthGuard } from "src/auth/auth.guard";
 
-@Controller('users')
+@Controller("users")
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get() // GET /users or /users?role=value&age=42 (those are query parameters)
-  findAll(@Query('role') role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+  findAll(@Query("role") role?: "INTERN" | "ENGINEER" | "ADMIN") {
     return this.usersService.findAll(role);
   }
 
@@ -28,8 +31,8 @@ export class UsersController {
     return [];
   } */
 
-  @Get(':id') // GET /users/:id. Params are always string
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  @Get(":id") // GET /users/:id. Params are always string
+  findOne(@Param("id", ParseIntPipe) id: number) {
     return this.usersService.findOne(id); // can use parseInt() or unary plus(+) which was used as id expects number
   }
 
@@ -41,17 +44,17 @@ export class UsersController {
     return this.usersService.create(user);
   }
 
-  @Patch(':id') // PATCH /users/:id
+  @Patch(":id") // PATCH /users/:id
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param("id", ParseIntPipe) id: number,
     @Body(ValidationPipe)
     userUpdate: UpdateUserDto,
   ) {
     return this.usersService.update(id, userUpdate);
   }
 
-  @Delete(':id') // DELETE /users/:id
-  delete(@Param('id', ParseIntPipe) id: number) {
+  @Delete(":id") // DELETE /users/:id
+  delete(@Param("id", ParseIntPipe) id: number) {
     return this.usersService.delete(id);
   }
 }

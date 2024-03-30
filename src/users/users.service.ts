@@ -1,48 +1,58 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { NotFoundException } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class UsersService {
   private users = [
     {
       id: 1,
-      name: 'Leanne Graham',
-      email: 'Sincere@april.biz',
-      role: 'INTERN',
+      name: "Leanne Graham",
+      username: "leanne",
+      password: "aaaa",
+      email: "Sincere@april.biz",
+      role: "INTERN",
     },
     {
       id: 2,
-      name: 'Ervin Howell',
-      email: 'Shanna@melissa.tv',
-      role: 'INTERN',
+      name: "Ervin Howell",
+      username: "howell",
+      password: "aaaa",
+      email: "Shanna@melissa.tv",
+      role: "INTERN",
     },
     {
       id: 3,
-      name: 'Clementine Bauch',
-      email: 'Nathan@yesenia.net',
-      role: 'ENGINEER',
+      name: "Clementine Bauch",
+      username: "bauch",
+      password: "aaaa",
+      email: "Nathan@yesenia.net",
+      role: "ENGINEER",
     },
     {
       id: 4,
-      name: 'Patricia Lebsack',
-      email: 'Julianne.OConner@kory.org',
-      role: 'ENGINEER',
+      name: "Patricia Lebsack",
+      username: "patricia",
+      password: "aaaa",
+      email: "Julianne.OConner@kory.org",
+      role: "ENGINEER",
     },
     {
       id: 5,
-      name: 'Chelsey Dietrich',
-      email: 'Lucio_Hettinger@annie.ca',
-      role: 'ADMIN',
+      name: "Chelsey Dietrich",
+      username: "chelsea",
+      password: "aaaa",
+      email: "Lucio_Hettinger@annie.ca",
+      role: "ADMIN",
     },
   ];
 
-  findAll(role?: 'INTERN' | 'ENGINEER' | 'ADMIN') {
+  findAll(role?: "INTERN" | "ENGINEER" | "ADMIN") {
     if (role) {
       const rolesArray = this.users.filter((user) => user.role === role);
       if (!rolesArray.length)
-        throw new NotFoundException('User Role Not Found');
+        throw new NotFoundException("User Role Not Found");
       return rolesArray;
     }
     return this.users;
@@ -51,7 +61,15 @@ export class UsersService {
   findOne(id: number) {
     const user = this.users.find((user) => user.id === id);
 
-    if (!user) throw new NotFoundException('User Not Found');
+    if (!user) throw new NotFoundException("User Not Found");
+
+    return user;
+  }
+
+  findUser(username: string) {
+    const user = this.users.find((user) => user.username === username);
+
+    if (!user) throw new NotFoundException("User Not Found");
 
     return user;
   }
